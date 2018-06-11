@@ -4,9 +4,9 @@ import (
   "log"
 	"fmt"
   "github.com/sclevine/agouti"
-	"strconv"
+	//"strconv"
   "regexp"
-  "./sendemail"
+  //"./sendemail"
 	"time"
 )
 
@@ -39,6 +39,17 @@ func main() {
   if err := page.Navigate("https://tickets.fifa.com/Services/ADService.html?lang=ru"); err != nil {
     log.Fatal("Failed to navigate:", err)
   }
+
+
+  type sf struct {
+    name string
+    cube []int
+  }
+  var filter []sf
+  filter = append(filter, sf{name:"Матч63-Матчза3−еместо-Санкт-Петербург", cube : []int{0,0,0,1,1}})
+  filter = append(filter, sf{name:"Матч17-Россия:Египет-Санкт-Петербург", cube : []int{0,0,0,1,1}})
+  
+
   for true {
     duration := time.Second
     time.Sleep(duration)
@@ -54,6 +65,8 @@ func main() {
     page.RunScript("return document.getElementsByClassName('categoryBox greenAvailability').length", nil, &count3)
     fmt.Println(count);
 
+    m := make( map[string]interface{} )
+
     var temp1 []string
     page.RunScript(`var fruits = [];
       var tm = document.getElementsByClassName('categoryBox zeroAvailability');
@@ -63,14 +76,28 @@ func main() {
       }
       return fruits;`,
        nil, &temp1)
+    var temp1Int []int
     for index, element := range temp1{
       var re = regexp.MustCompile(`[[:space:]]`)
       temp1[index] = re.ReplaceAllString(element, "")
+      if( temp1[index] == "categoryBoxzeroAvailability" ){
+        temp1Int = append(temp1Int, 0)
+      }
+      if( temp1[index] == "categoryBoxlowAvailability" ){
+        temp1Int = append(temp1Int, 1)
+      }
+      if( temp1[index] == "categoryBoxyellowAvailability" ){
+        temp1Int = append(temp1Int, 2)
+      }
+      if( temp1[index] == "categoryBoxgreenAvailability" ){
+        temp1Int = append(temp1Int, 3)
+      }
       //fmt.Println(strconv.Itoa(index) + ": "+ temp1[index])
       if(index !=0 && (index+1) % 5 == 0){
         //fmt.Println(" ")
       }
     }
+
 
     var temp []string
     page.RunScript("var fruits = [];"+
@@ -86,8 +113,20 @@ func main() {
       var re = regexp.MustCompile(`[[:space:]]`)
       temp[index] = re.ReplaceAllString(element, "")
       //fmt.Println(strconv.Itoa(index) + ": "+ temp[index])
+      m[temp[index]] = []int{ temp1Int[index*5],temp1Int[index*5 + 1],temp1Int[index*5 + 2],temp1Int[index*5 + 3],temp1Int[index*5 + 4]}
       if(index !=0 && (index+1) % 5 == 0){
         //fmt.Println(" ")
+      }
+    }
+
+    for index, element := range m{
+      v := element.([]int)
+      //fmt.Println(index + "            : "+ strconv.Itoa(v[0]) + " "+ strconv.Itoa(v[1]) + " " + strconv.Itoa(v[2]) + " " +strconv.Itoa(v[3]) + " " + strconv.Itoa(v[4]))
+      for _, elemFilt := range filter{
+        if( elemFilt.name == index){
+          fmStr := fmt.Sprintf("%50.50s %d %d %d %d %d", index, v[0], v[1], v[2], v[3], v[4])
+          fmt.Println(fmStr)
+        }
       }
     }
 
@@ -111,11 +150,11 @@ func main() {
     //log.Println(sectionTitle)
 
     //sendemail.Send(temp[0])
-    sendemail.Send("zeroAvailability = " + strconv.Itoa(count) +
-    " lowAvailability = " + strconv.Itoa(count1) +
-    " yellowAvailability = " + strconv.Itoa(count2) +
-    " grenAvailability = " + strconv.Itoa(count3), 
-    "exitstop@list.ru", "gbe643412@gmail.com", "fgjkriJDdjrjhfhIF73hfd" )
+    //sendemail.Send("zeroAvailability = " + strconv.Itoa(count) +
+    //" lowAvailability = " + strconv.Itoa(count1) +
+    //" yellowAvailability = " + strconv.Itoa(count2) +
+    //" grenAvailability = " + strconv.Itoa(count3), 
+    //"exitstop@list.ru", "gbe643412@gmail.com", "fgjkriJDdjrjhfhIF73hfd" )
     duration = time.Second * 60
     time.Sleep(duration)
     page.Refresh()
