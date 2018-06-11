@@ -139,31 +139,6 @@ func main() {
       }
     }
 
-    //fmt.Println(temp)
-
-    //for i := 0; i < count; i++{
-      //sendFmt := "return document.getElementsByClassName('categoryBox zeroAvailability')["+strconv.Itoa(i)+"].textContent"
-      //page.RunScript(sendFmt, nil, &value)
-      //fmt.Println(value);
-    //}
-    //page.RunScript("return window.someObject;", nil, &value)
-    //dat, err := ioutil.ReadFile("bundle.js")
-    //check(err)
-    //var number int
-    //page.RunScript(string(dat), nil, &value)
-    //fmt.Println(number)
-
-    //log.Println(page.HTML());
-    //sectionTitle, err := page.FindByID("stylesheet").Text()
-    //sectionTitle, err := page.FindByClass("header").Text()
-    //log.Println(sectionTitle)
-
-    //sendemail.Send(temp[0])
-    //sendemail.Send("zeroAvailability = " + strconv.Itoa(count) +
-    //" lowAvailability = " + strconv.Itoa(count1) +
-    //" yellowAvailability = " + strconv.Itoa(count2) +
-    //" grenAvailability = " + strconv.Itoa(count3), 
-    //"exitstop@list.ru", "gbe643412@gmail.com", "fgjkriJDdjrjhfhIF73hfd" )
     duration = time.Second * 60
     time.Sleep(duration)
     page.Refresh()
