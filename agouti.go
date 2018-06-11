@@ -8,6 +8,7 @@ import (
   "regexp"
   //"./sendemail"
 	"time"
+  "./lCommon"
 )
 
 func check(e error) {
@@ -46,9 +47,8 @@ func main() {
     cube []int
   }
   var filter []sf
-  filter = append(filter, sf{name:"Матч63-Матчза3−еместо-Санкт-Петербург", cube : []int{0,0,0,1,1}})
-  filter = append(filter, sf{name:"Матч17-Россия:Египет-Санкт-Петербург", cube : []int{0,0,0,1,1}})
-  
+  filter = append(filter, sf{name:"Матч63-Матчза3−еместо-Санкт-Петербург", cube : []int{1,1,0,1,1}})
+  filter = append(filter, sf{name:"Матч17-Россия:Египет-Санкт-Петербург", cube : []int{1,1,0,1,1}})
 
   for true {
     duration := time.Second
@@ -124,8 +124,17 @@ func main() {
       //fmt.Println(index + "            : "+ strconv.Itoa(v[0]) + " "+ strconv.Itoa(v[1]) + " " + strconv.Itoa(v[2]) + " " +strconv.Itoa(v[3]) + " " + strconv.Itoa(v[4]))
       for _, elemFilt := range filter{
         if( elemFilt.name == index){
-          fmStr := fmt.Sprintf("%50.50s %d %d %d %d %d", index, v[0], v[1], v[2], v[3], v[4])
-          fmt.Println(fmStr)
+          for ii := 0; ii < 5; ii++{
+            if(elemFilt.cube[ii] == 1 && v[ii] > 0){
+              fmStr := fmt.Sprintf("%50.50s %d %d %d %d %d", index, v[0], v[1], v[2], v[3], v[4])
+              fmt.Println(fmStr)
+              if err := lCommon.PlayMusic("./sound/nemeckaja-rech-i-signal-trevogi.mp3", 5 ) ; err != nil {
+                fmt.Println("no sound")
+              }
+              break;
+            }
+
+          }
         }
       }
     }
