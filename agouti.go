@@ -48,8 +48,7 @@ func main() {
     cube []int
   }
   var filter []sf
-  filter = append(filter, sf{name:"Матч63-Матчза3−еместо-Санкт-Петербург", cube : []int{1,1,0,1,1}})
-  filter = append(filter, sf{name:"Матч17-Россия:Египет-Санкт-Петербург", cube : []int{1,1,0,1,1}})
+  filter = append(filter, sf{name:"Матч16-Колумбия:Япония-Саранск", cube : []int{1,1,1,1,1}})
 
   for true {
     duration := time.Second
@@ -120,22 +119,27 @@ func main() {
       }
     }
 
+    soundPlay := true
     for index, element := range m{
       v := element.([]int)
       //fmt.Println(index + "            : "+ strconv.Itoa(v[0]) + " "+ strconv.Itoa(v[1]) + " " + strconv.Itoa(v[2]) + " " +strconv.Itoa(v[3]) + " " + strconv.Itoa(v[4]))
-      for _, elemFilt := range filter{
-              //fmStr := fmt.Sprintf("%50.50s %d %d %d %d %d", index, v[0], v[1], v[2], v[3], v[4])
-              //fmt.Println(fmStr)
+      for indFilt, elemFilt := range filter{
+              fmStr := fmt.Sprintf("%50.50s %d %d %d %d %d", index, v[0], v[1], v[2], v[3], v[4])
+              fmt.Println(fmStr)
         if( elemFilt.name == index){
           for ii := 0; ii < 5; ii++{
-            if(elemFilt.cube[ii] == 1 && v[ii] > 0){
+            if(elemFilt.cube[ii] > 0 && v[ii] > 0 && v[ii] != (elemFilt.cube[ii]-1)){
+              filter[indFilt].cube[ii] = 1 + v[ii]
               fmStr := fmt.Sprintf("%50.50s %d %d %d %d %d", index, v[0], v[1], v[2], v[3], v[4])
               fmt.Println(fmStr)
               //dialog.Message("%s", "Please select a file").Title("Hello world!").Info()
-              if err := lCommon.PlayMusic("./sound/nemeckaja-rech-i-signal-trevogi.mp3", 5 ) ; err != nil {
-                fmt.Println("no sound")
+              if soundPlay == true{
+                if err := lCommon.PlayMusic("./sound/nemeckaja-rech-i-signal-trevogi.mp3", 5 ) ; err != nil {
+                  fmt.Println("no sound")
+                }
               }
-              break;
+              soundPlay = false
+              //break;
             }
 
           }
@@ -143,7 +147,7 @@ func main() {
       }
     }
 
-    duration = time.Second * 60
+    duration = time.Second * 10 
     time.Sleep(duration)
     page.Refresh()
   }
