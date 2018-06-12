@@ -9,6 +9,7 @@ import (
   //"./sendemail"
 	"time"
   "./lCommon"
+  "github.com/skratchdot/open-golang/open"
   //"github.com/sqweek/dialog"
 )
 
@@ -139,6 +140,7 @@ func main() {
               fmt.Println(fmStr)
               //dialog.Message("%s", "Please select a file").Title("Hello world!").Info()
               if soundPlay == true{
+                open.Run("https://tickets.fifa.com")
                 if err := lCommon.PlayMusic("./sound/nemeckaja-rech-i-signal-trevogi.mp3", 5 ) ; err != nil {
                   fmt.Println("no sound")
                 }
@@ -153,6 +155,7 @@ func main() {
     }
 
     if count - lastCount > 80 && lastCount != 0{
+      open.Run("https://tickets.fifa.com")
       if err := lCommon.PlayMusic("./sound/nemeckaja-rech-i-signal-trevogi.mp3", 5 ) ; err != nil {
           fmt.Println("no sound")
       }
