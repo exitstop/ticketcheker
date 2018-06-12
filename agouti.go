@@ -9,7 +9,7 @@ import (
   //"./sendemail"
 	"time"
   "./lCommon"
-  "github.com/sqweek/dialog"
+  //"github.com/sqweek/dialog"
 )
 
 func check(e error) {
@@ -131,7 +131,7 @@ func main() {
             if(elemFilt.cube[ii] == 1 && v[ii] > 0){
               fmStr := fmt.Sprintf("%50.50s %d %d %d %d %d", index, v[0], v[1], v[2], v[3], v[4])
               fmt.Println(fmStr)
-              dialog.Message("%s", "Please select a file").Title("Hello world!").Info()
+              //dialog.Message("%s", "Please select a file").Title("Hello world!").Info()
               if err := lCommon.PlayMusic("./sound/nemeckaja-rech-i-signal-trevogi.mp3", 5 ) ; err != nil {
                 fmt.Println("no sound")
               }
