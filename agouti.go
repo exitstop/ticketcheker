@@ -155,7 +155,7 @@ func main() {
     }
 
     if count - lastCount > 80 && lastCount != 0{
-      open.Run("https://tickets.fifa.com")
+      open.RunWith("https://tickets.fifa.com", "chrome")  
       if err := lCommon.PlayMusic("./sound/nemeckaja-rech-i-signal-trevogi.mp3", 5 ) ; err != nil {
           fmt.Println("no sound")
       }
