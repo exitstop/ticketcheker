@@ -50,6 +50,8 @@ func main() {
   var filter []sf
   filter = append(filter, sf{name:"Матч16-Колумбия:Япония-Саранск", cube : []int{1,1,1,1,1}})
 
+  lastCount := 0
+
   for true {
     duration := time.Second
     time.Sleep(duration)
@@ -145,6 +147,15 @@ func main() {
           }
         }
       }
+    }
+
+    if count - lastCount > 80 && lastCount != 0{
+      if err := lCommon.PlayMusic("./sound/nemeckaja-rech-i-signal-trevogi.mp3", 5 ) ; err != nil {
+          fmt.Println("no sound")
+      }
+    }
+    if count != 0{
+      lastCount = count
     }
 
     duration = time.Second * 10 
