@@ -9,6 +9,7 @@ import (
   //"./sendemail"
 	"time"
   "./lCommon"
+  "github.com/sqweek/dialog"
 )
 
 func check(e error) {
@@ -123,11 +124,14 @@ func main() {
       v := element.([]int)
       //fmt.Println(index + "            : "+ strconv.Itoa(v[0]) + " "+ strconv.Itoa(v[1]) + " " + strconv.Itoa(v[2]) + " " +strconv.Itoa(v[3]) + " " + strconv.Itoa(v[4]))
       for _, elemFilt := range filter{
+              fmStr := fmt.Sprintf("%50.50s %d %d %d %d %d", index, v[0], v[1], v[2], v[3], v[4])
+              fmt.Println(fmStr)
         if( elemFilt.name == index){
           for ii := 0; ii < 5; ii++{
             if(elemFilt.cube[ii] == 1 && v[ii] > 0){
               fmStr := fmt.Sprintf("%50.50s %d %d %d %d %d", index, v[0], v[1], v[2], v[3], v[4])
               fmt.Println(fmStr)
+              dialog.Message("%s", "Please select a file").Title("Hello world!").Info()
               if err := lCommon.PlayMusic("./sound/nemeckaja-rech-i-signal-trevogi.mp3", 5 ) ; err != nil {
                 fmt.Println("no sound")
               }
