@@ -48,7 +48,10 @@ func main() {
     cube []int
   }
   var filter []sf
-  filter = append(filter, sf{name:"Матч16-Колумбия:Япония-Саранск", cube : []int{1,1,1,1,1}})
+
+	filter = append(filter, sf{name:"Матч63-Матчза3−еместо-Санкт-Петербург", cube : []int{1,1,1,0,0}}) 
+	filter = append(filter, sf{name:"Матч33-Уругвай:Россия-Самара", cube : []int{0,0,0,1,1}}) 
+	filter = append(filter, sf{name:"Матч49-1A:2B-Сочи", cube : []int{0,0,0,1,1}})
 
   lastCount := 0
 
